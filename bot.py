@@ -14,7 +14,6 @@ bot = Dispatcher(token, storage=storage)
 class ChoiceCity(StatesGroup):
     waiting_city = State()
 
-
 @bot.message_handler(commands=['start'])
 async def start_message(message):
     markup = types.reply_keyboard.ReplyKeyboardMarkup(row_width=2)
@@ -22,7 +21,7 @@ async def start_message(message):
     btn2 = types.KeyboardButton('Погода в другом месте')
     btn3 = types.KeyboardButton('История')
     markup.add(btn1, btn2, btn3)
-    text = f'Привет @{message.from_user.username}, я бот, который расскжет тебе о погоде на сегодня'
+    text = f'Привет {message.from_user.first_name}, я бот, который расскжет тебе о погоде на сегодня'
     await message.answer(text, reply_markup=markup)
 
 @bot.message_handler(regexp='Погода в моём городе')
@@ -41,7 +40,7 @@ async def menu(message):
     btn2 = types.KeyboardButton('Погода в другом месте')
     btn3 = types.KeyboardButton('История')
     markup.add(btn1, btn2, btn3)
-    text = f'Привет @{message.from_user.username}, я бот, который расскжет тебе о погоде на сегодня'
+    text = f'Привет {message.from_user.first_name}, я бот, который расскжет тебе о погоде на сегодня'
     await message.answer(text, reply_markup=markup)
 
 def register_handlers_city(dp: Dispatcher):
