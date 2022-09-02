@@ -61,13 +61,13 @@ async def city_chosen(message: types.Message, state: FSMContext):
     if message.text[0].islower():
         await message.answer('Названия городов пишутся с большой буквы)')
         return
-    await state.update_data(waiting_city=message.text.lower())
+    await state.update_data(waiting_city=message.text)
     markup = types.reply_keyboard.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
     btn1 = types.KeyboardButton('Меню')
     markup.add(btn1)
     user_data = await state.get_data()
     data = request.get_weather_by_city(user_data.get('waiting_city'))
-    text = f' Температура: {data["temp"]} C\n Ощущается как: {data["feels_like"]} C \n Скорость ветра: {data["wind_speed"]}м/с\n Давление: {data["pressure_mm"]}мм'
+    text = f' Погода в {data[1]+"е"}\n Температура: {data[0]["temp"]} C\n Ощущается как: {data[0]["feels_like"]} C \n Скорость ветра: {data[0]["wind_speed"]}м/с\n Давление: {data[0]["pressure_mm"]}мм'
     await message.answer(text, reply_markup=markup)
 
 

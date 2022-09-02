@@ -17,7 +17,7 @@ def get_weather_by_city(city):
     coordinates = get_city_coord(city)
     r = requests.get('https://api.weather.yandex.ru/v2/forecast', params={'lat': coordinates[1], 'lon': coordinates[0], 'lang': 'ru_RU', 'limit': '1'}, headers=config.weather_key)
     weather_data = r.json()['fact']
-    return weather_data
+    return [weather_data, city]
 
 
-
+get_weather_by_city('Калининград')
