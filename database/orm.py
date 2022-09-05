@@ -38,6 +38,17 @@ def create_weather_report(tg_user_id, temp, feels_like, wind_speed, pressure_mm,
     session.add(new_report)
     session.commit()
 
+def create_user_city_report(tg_user_id, temp, feels_like, wind_speed, pressure_mm):
+    engine = create_engine(DATABASE)
+    DeclarativeBase.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    user = select(TelegramUsers).where(TelegramUsers.tg_user_id == tg_user_id)
+    user_data = session.scalars(user).one()
+    new_report = WeatherReports(temp=temp, feels_like=feels_like, wind_speed=wind_speed, pressure_mm=pressure_mm, city=user_data.user_city, owner=user_data.id)
+    session.add(new_report)
+    session.commit()
+
 #Нaдо переработать функцию, похоже, что нет никакой связи в таблицах
 def get_reports(tg_user_id):
     engine = create_engine(DATABASE)
@@ -46,8 +57,19 @@ def get_reports(tg_user_id):
     session = Session()
     user = select(TelegramUsers).where(TelegramUsers.tg_user_id == tg_user_id)
     user_data = session.scalars(user).one()
-    reports = session.query(WeatherReports).filter(WeatherReports.owner == user_data.id)
+    reports = session.query(WeatherReports).filter(WeatherReports.owner == user_data.id).all()
     return reports
+
+def delete_user_report(report_id):
+    engine = create_engine(DATABASE)
+    DeclarativeBase.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    report = session.get(WeatherReports, report_id)
+    session.delete(report)
+    session.commit()
+
+
 
 #set_user_sity(12345, 'Калининград')
 

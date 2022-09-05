@@ -20,4 +20,4 @@ def get_weather_by_city(city):
     return [weather_data, city]
 
 
-get_weather_by_city('Калининград')
+#get_weather_by_city('Калининград')

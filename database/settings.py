@@ -1,1 +1,1 @@
-DATABASE = 'postgresql://postgres:postgres@localhost:5432/testbase'
+DATABASE = 'postgresql://postgres:postgres@localhost:5432/test2'
